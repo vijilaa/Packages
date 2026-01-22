@@ -451,25 +451,32 @@ const packages = [
 
 export default function Packages() {
   return (
-    <div className="container">
-      {packages.map((pkg) => (
-        <div className="card" key={pkg.name}>
-          <div className="header">
-            <h4>{pkg.name}</h4>
-            <h2>{pkg.price}</h2>
+    <div className="main-wrapper">
+      <h1 className="services-title">construction services package</h1>
+     
+      
+      <div className="container">
+        {packages.map((pkg) => (
+          <div className="card" key={pkg.name}>
+            <div className="header">
+              <h4>{pkg.name}</h4>
+              <h2>{pkg.price}</h2>
+            </div>
+
+            <div className="accordion-group">
+              {SECTION_ORDER.map((section) => (
+                <Accordion
+                  key={section}
+                  title={section}
+                  items={pkg.data[section] || []}
+                />
+              ))}
+            </div>
+
+            <button className="cta">GET DETAILED SPECIFICATION</button>
           </div>
-
-          {SECTION_ORDER.map((section) => (
-            <Accordion
-              key={section}
-              title={section}
-              items={pkg.data[section] || []}
-            />
-          ))}
-
-          <button className="cta">GET DETAILED SPECIFICATION</button>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   );
 }
@@ -478,10 +485,10 @@ function Accordion({ title, items }) {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="accordion">
+    <div className={`accordion ${open ? "is-open" : ""}`}>
       <div className="accordion-header" onClick={() => setOpen(!open)}>
         <span>{title}</span>
-        <span>{open ? "−" : "+"}</span>
+        <span className="icon">{open ? "−" : "+"}</span>
       </div>
 
       {open && (
